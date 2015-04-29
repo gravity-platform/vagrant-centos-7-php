@@ -14,7 +14,7 @@ export X_SCLS="`scl enable php55 'echo $X_SCLS'`" && \
 echo 'memory_limit=-1' > /opt/rh/php55/root/etc/php.d/memory_limit.ini && \
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
-firewall-cmd --zone=dmz --add-port=8000/tcp --permanent && \
+firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
 
