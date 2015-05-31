@@ -16,6 +16,21 @@ pecl install xdebug && \
 echo 'zend_extension=xdebug.so' > /opt/rh/php55/root/etc/php.d/xdebug.ini && \
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
+echo '#/bin/sh' > /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo 'REQUESTED_BIN=`basename ${0}`' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo 'if [[ -f ${PWD}/vendor/bin/${REQUESTED_BIN} ]]; then' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo '    FINAL_BIN=${PWD}/vendor/bin/${REQUESTED_BIN}' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo 'else' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo '    FINAL_BIN=${HOME}/.composer/vendor/bin/${REQUESTED_BIN}' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo 'fi' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+echo 'exec $FINAL_BIN $@' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+chmod +x /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+su -l vagrant -c 'composer global require phpunit/phpunit' && \
+ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
+su -l vagrant -c 'composer global require squizlabs/php_codesniffer' && \
+ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcs && \
+ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
