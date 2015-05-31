@@ -4,7 +4,7 @@ $script = <<SCRIPT
 yum -y install epel-release scl-utils deltarpm && \
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/php55/epel-7-x86_64/download/rhscl-php55-epel-7-x86_64.noarch.rpm && \
 yum -y update && \
-yum -y install php55 php55-php-mongo php55-php-pdo php55-php-devel mongodb mongodb-server && \
+yum -y install php55 php55-php-mongo php55-php-pdo php55-php-devel mongodb mongodb-server git && \
 systemctl enable mongod && \
 systemctl start mongod && \
 echo '. /opt/rh/php55/enable' >> /home/vagrant/.bashrc && \
