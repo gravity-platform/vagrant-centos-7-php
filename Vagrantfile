@@ -28,7 +28,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "private_network", type: "dhcp"
 
-  config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port",
+    guest: 8000,
+    host_ip: '127.0.0.1', host: 8000,
+    auto_correct: true
 
   config.vm.provision "shell", inline: $script
 

@@ -14,7 +14,7 @@ Now you can ``vagrant ssh`` into the box and run composer.
 cd $PATH_TO_HOME_AS_ON_HOST # ie. /home/hairmare/git.repos/graviton
 composer install
 vendor/bin/phpunit
-app/console server:run
+app/console server:run 0.0.0.0:8000
 ```
 
 This should run all tests and start a server on port 8000 that has been mapped on the boxes NAT interface.
