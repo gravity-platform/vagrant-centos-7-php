@@ -51,6 +51,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "fernandezvara/centos7"
 
+  config.vm.provider "virtualbox" do |vbox|
+    vbox.memory = 2048
+  end
+
   config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
 
   if ipAddr.nil?
