@@ -64,6 +64,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     host_ip: '127.0.0.1', host: 8000,
     auto_correct: true
 
-  config.vm.provision "shell", inline: $script
+  config.vm.provision "gitconfig", type: "file",
+    source: "~/.gitconfig",
+    destination: ".gitconfig"
+
+  if File.exists?('~/.gitignore_global')
+    config.vm.provision "gitignores", type: "file",
+      source: "~/.gitignore_global",
+      destination: ".gitignore_global"
+  end
+
+  config.vm.provision "kickstart", type: "shell",
+    inline: $script
 
 end
