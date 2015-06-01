@@ -14,6 +14,12 @@ export X_SCLS="`scl enable php55 'echo $X_SCLS'`" && \
 echo 'memory_limit=-1' > /opt/rh/php55/root/etc/php.d/memory_limit.ini && \
 pecl install xdebug && \
 echo 'zend_extension=xdebug.so' > /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'xdebug.remote_enable=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'xdebug.remote_port=9001' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'xdebug.remote_autostart=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'xdebug.remote_connect_back=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'xdebug.idekey=PHPSTORM' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'export XDEBUG_CONFIG="idekey=PHPSTORM"' >> /home/vagrant/.bashrc && \
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
 echo '#/bin/sh' > /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
