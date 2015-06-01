@@ -1,5 +1,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
+ipAddr = nil
+
+if File.exists?('Vagrantfile.local')
+  load 'Vagrantfile.local'
+end
+
 $script = <<SCRIPT
 yum -y install epel-release scl-utils deltarpm && \
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/php55/epel-7-x86_64/download/rhscl-php55-epel-7-x86_64.noarch.rpm && \
@@ -47,7 +53,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :nfs => true, :mount_options => ['nolock,vers=3,udp']
 
-  config.vm.network "private_network", type: "dhcp"
+  if ipAddr.nil?
+    config.vm.network "private_network", type: "dhcp"
+  else
+    config.vm.network :private_network, ip: ipAddr
+  end
 
   config.vm.network "forwarded_port",
     guest: 8000,
