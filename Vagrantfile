@@ -28,15 +28,7 @@ echo 'xdebug.idekey=PHPSTORM' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
 echo 'export XDEBUG_CONFIG="idekey=PHPSTORM"' >> /home/vagrant/.bashrc && \
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
-echo '#/bin/sh' > /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo 'REQUESTED_BIN=`basename ${0}`' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo 'if [[ -f ${PWD}/vendor/bin/${REQUESTED_BIN} ]]; then' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo '    FINAL_BIN=${PWD}/vendor/bin/${REQUESTED_BIN}' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo 'else' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo '    FINAL_BIN=${HOME}/.composer/vendor/bin/${REQUESTED_BIN}' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo 'fi' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
-echo 'exec $FINAL_BIN $@' >> /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+mv /vagrant/vendor-wrapper.sh /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
 chmod +x /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
 su -l vagrant -c 'composer global require phpunit/phpunit' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
@@ -63,6 +55,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     guest: 8000,
     host_ip: '127.0.0.1', host: 8000,
     auto_correct: true
+
+  config.vm.provision "vendor-wrapper", type: "file",
+    source: "vendor-wrapper.sh",
+    destination: "vendor-wrapper.sh"
 
   config.vm.provision "shell", inline: $script
 
