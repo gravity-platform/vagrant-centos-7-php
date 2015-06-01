@@ -74,7 +74,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       destination: ".gitignore_global"
   end
 
-  config.vm.provision "kickstart", type: "shell",
-    inline: $script
+  config.vm.provision "shell", inline: $script
 
 end
