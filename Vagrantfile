@@ -6,6 +6,19 @@ if File.exists?('Vagrantfile.local')
   load 'Vagrantfile.local'
 end
 
+require 'rbconfig'
+
+os = case RbConfig::CONFIG['host_os']
+  when /mswin|windows/i
+    'windows'
+  when /linux|arch/i
+    'linux'
+  when /darwin/i
+    'osx'
+  else
+    raise 'Failed to detect os'
+end
+
 $script = <<SCRIPT
 yum -y install epel-release scl-utils deltarpm && \
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/php55/epel-7-x86_64/download/rhscl-php55-epel-7-x86_64.noarch.rpm && \
@@ -51,7 +64,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "fernandezvara/centos7"
 
-  config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+  case os
+    when 'osx'
+      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+    else
+      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home"
+  end
 
   if ipAddr.nil?
     config.vm.network "private_network", type: "dhcp"
