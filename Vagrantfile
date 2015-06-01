@@ -51,6 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "fernandezvara/centos7"
 
+  config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
 
   if ipAddr.nil?
@@ -63,6 +64,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     guest: 8000,
     host_ip: '127.0.0.1', host: 8000,
     auto_correct: true
+
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    v.memory = 1024
+  end
 
   config.vm.provision "shell", inline: $script
 
