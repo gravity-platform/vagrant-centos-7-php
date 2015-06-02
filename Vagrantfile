@@ -1,6 +1,14 @@
 VAGRANTFILE_API_VERSION = "2"
 
-ipAddr = nil
+module Box
+  module Config
+    attr_accessor :ipAddr, :syncDirHost, :syncDirGuest
+    module_function :ipAddr, :ipAddr=, :syncDirHost, :syncDirHost=, :syncDirGuest, :syncDirGuest=
+    # set defaults
+    @syncDirHost = ENV['HOME']
+    @syncDirGuest = "/home/vagrant"
+  end
+end
 
 if File.exists?('Vagrantfile.local')
   load 'Vagrantfile.local'
@@ -57,12 +65,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.memory = 2048
   end
 
-  config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+  config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
 
-  if ipAddr.nil?
+  if Box::Config::ipAddr.nil?
     config.vm.network "private_network", type: "dhcp"
   else
-    config.vm.network :private_network, ip: ipAddr
+    config.vm.network :private_network, ip: Box::Config::ipAddr
   end
 
   config.vm.network "forwarded_port",
