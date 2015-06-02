@@ -66,7 +66,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   case os
     when 'osx'
-      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs',
+        :nfs_version => 4,
+        :nfs_udp => false,
+        :mount_options => ['nolock']
+    when 'windows'
+      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs',
+        :nfs => true
     else
       config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home"
   end
