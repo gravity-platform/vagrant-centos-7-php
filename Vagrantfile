@@ -6,7 +6,7 @@ module Box
     module_function :ipAddr, :ipAddr=, :syncDirHost, :syncDirHost=, :syncDirGuest, :syncDirGuest=
     # set defaults
     @syncDirHost = ENV['HOME']
-    @syncDirGuest = "/home/vagrant"
+    @syncDirGuest = ENV['HOME']
   end
 end
 
