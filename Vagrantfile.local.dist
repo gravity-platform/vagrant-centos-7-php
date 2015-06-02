@@ -1,0 +1,19 @@
+# vagrant-centos-7-php configuration
+ 
+# static ip address for the boxes nat interface
+#
+# Default: null -> uses dhcp to obtain an ip address
+
+Box::Config::ipAddr = "192.168.50.20"
+
+# source directory to share with guest
+#
+# Default: ENV['HOME']
+
+Box::Config::syncDirHost = ENV['HOME']
+
+# target directory where shared dir will be made available
+#
+# Default: ENV['HOME']
+
+Box::Config::syncDirGuest = ENV['HOME']

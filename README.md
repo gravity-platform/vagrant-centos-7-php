@@ -43,11 +43,4 @@ vagrant up
 
 You may add a ``Vagrantfile.local`` file that overrides some defaults.
 
-The following example shows all configurable aspects of the system.
-
-```ruby
-Box::Config::ipAddr = "192.168.50.20"          #Default: null
-Box::Config::syncDirHost = "/path/to/project"  #Default: ENV['HOME']
-Box::Config::syncDirGuest = "/path/to/project" #Default: /home/vagrant
-```
-
+See [Vagrantfile.local.dist](Vagrantfile.local.dist) for an example config.
