@@ -1,6 +1,14 @@
 VAGRANTFILE_API_VERSION = "2"
 
-ipAddr = nil
+module Box
+  module Config
+    attr_accessor :ipAddr, :syncDirHost, :syncDirGuest
+    module_function :ipAddr, :ipAddr=, :syncDirHost, :syncDirHost=, :syncDirGuest, :syncDirGuest=
+    # set defaults
+    @syncDirHost = ENV['HOME']
+    @syncDirGuest = ENV['HOME']
+  end
+end
 
 if File.exists?('Vagrantfile.local')
   load 'Vagrantfile.local'
@@ -55,24 +63,30 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "fernandezvara/centos7"
+  
+  config.vm.provider "virtualbox" do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    v.memory = 2048
+  end
 
   case os
     when 'osx'
-      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs',
+      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs',
         :nfs_version => 4,
         :nfs_udp => false,
         :mount_options => ['nolock']
     when 'windows'
-      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :type => 'nfs',
+      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs',
         :nfs => true
     else
-      config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home"
+      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home"
   end
 
-  if ipAddr.nil?
+  if Box::Config::ipAddr.nil?
     config.vm.network "private_network", type: "dhcp"
   else
-    config.vm.network :private_network, ip: ipAddr
+    config.vm.network :private_network, ip: Box::Config::ipAddr
   end
 
   config.vm.network "forwarded_port",
