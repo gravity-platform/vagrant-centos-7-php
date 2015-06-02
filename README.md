@@ -2,6 +2,15 @@
 
 Deploy a CentOS 7 based Vagrant machine with basic developer runtime tooling to VirtualBox.
 
+## Dependencies
+
+You will have to install vagrant before the contents of this repo make sense. You might also
+want to configure your vagrant instance.
+
+```bash
+vagrant plugin install vagrant-vbguest
+```
+
 ## Initial Deploy
 
 ```bash
