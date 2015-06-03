@@ -17,7 +17,7 @@ end
 require 'rbconfig'
 
 os = case RbConfig::CONFIG['host_os']
-  when /mswin|msys|mingw|cygwin|emc/
+  when /mswin|msys|mingw|mingw32|cygwin|emc/
     'windows'
   when /linux|arch/i
     'linux'
