@@ -33,8 +33,8 @@ echo 'xdebug.remote_enable=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
 echo 'xdebug.remote_port=9001' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
 echo 'xdebug.remote_autostart=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
 echo 'xdebug.remote_connect_back=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo 'xdebug.idekey=PHPSTORM' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo \"export XDEBUG_CONFIG='idekey=PHPSTORM remote_enable=1 remote_autostart=1 remote_host=#{`hostname`[0..-2]}'\" >> /home/vagrant/.bashrc
+echo 'xdebug.idekey=#{Box::Config::xdebugIdeKey}' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo \"export XDEBUG_CONFIG='idekey=#{Box::Config::xdebugIdeKey} remote_enable=1 remote_autostart=1 remote_host=#{`hostname`[0..-2]}'\" >> /home/vagrant/.bashrc
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
 mv /vagrant/vendor-wrapper.sh /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
