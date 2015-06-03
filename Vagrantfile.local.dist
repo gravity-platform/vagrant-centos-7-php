@@ -17,3 +17,10 @@ Box::Config::syncDirHost = ENV['HOME']
 # Default: ENV['HOME']
 
 Box::Config::syncDirGuest = ENV['HOME']
+
+# xDebug session key for the IDE
+# for more information: http://xdebug.org/docs/remote
+#
+# Default: XDEBUG_SESSION
+Box::Config::xdebugIdeKey = "XDEBUG_SESSION"
+
