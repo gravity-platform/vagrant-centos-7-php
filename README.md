@@ -7,9 +7,18 @@ Deploy a CentOS 7 based Vagrant machine with basic developer runtime tooling to 
 You will have to install vagrant before the contents of this repo make sense. You might also
 want to configure your vagrant instance.
 
+### Linux/Fedora
+```bash
+sudo yum install ruby-devel libvirt-devel
+sudo apt-get install ruby-dev libvirt-dev
+defaultzone=$(firewall-cmd --get-default-zone)
+sudo firewall-cmd --permanent --zone $defaultzone --add-service mountd
+sudo firewall-cmd --permanent --zone $defaultzone --add-service rpc-bind
+sudo firewall-cmd --permanent --zone $defaultzone --add-service nfs
+sudo firewall-cmd --reload
+##VirtualBox Provider
 ```bash
 vagrant plugin install vagrant-vbguest
-```
 
 ## Initial Deploy
 

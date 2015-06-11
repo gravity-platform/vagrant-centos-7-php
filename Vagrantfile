@@ -8,6 +8,7 @@ module Box
     @syncDirHost = ENV['HOME']
     @syncDirGuest = ENV['HOME']
     @xdebugIdeKey = "XDEBUG_SESSION"
+    @GuestZimeZone = "/usr/share/zoneinfo/Europe/Zurich"
   end
 end
 
@@ -44,6 +45,7 @@ ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
 su -l vagrant -c 'composer global require squizlabs/php_codesniffer' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcs && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
+ln -sf #{Box::Config::GuestZimeZone} /etc/localtime && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
