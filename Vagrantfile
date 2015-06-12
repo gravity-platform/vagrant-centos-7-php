@@ -20,6 +20,7 @@ yum -y install epel-release scl-utils deltarpm && \
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/php55/epel-7-x86_64/download/rhscl-php55-epel-7-x86_64.noarch.rpm && \
 yum -y update && \
 yum -y install php55 php55-php-mongo php55-php-pdo php55-php-devel mongodb mongodb-server git && \
+sed -i -e 's/bind_ip = 127.0.0.1/#bind_ip = 127.0.0.1/g' /etc/mongod.conf && \
 systemctl enable mongod && \
 systemctl start mongod && \
 echo '. /opt/rh/php55/enable' >> /home/vagrant/.bashrc && \
@@ -45,6 +46,7 @@ su -l vagrant -c 'composer global require squizlabs/php_codesniffer' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcs && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
+firewall-cmd --zone=public --add-port=27017/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
 
@@ -69,6 +71,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port",
     guest: 8000,
     host_ip: '127.0.0.1', host: 8000,
+    auto_correct: true
+
+  config.vm.network "forwarded_port",
+    guest: 27017,
+    host_ip: '127.0.0.1', host: 27017,
     auto_correct: true
 
   config.vm.provision "vendor-wrapper", type: "file",
