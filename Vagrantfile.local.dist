@@ -27,4 +27,4 @@ Box::Config::xdebugIdeKey = "XDEBUG_SESSION"
 # change timezone check /usr/share/zoneinfo/*/*
 #
 # Default: /usr/share/zoneinfo/Europe/Zurich
-Box::Config::GuestZimeZone = "/usr/share/zoneinfo/Europe/Zurich"
+Box::Config::GuestTimeZone = "/usr/share/zoneinfo/Europe/Zurich"
