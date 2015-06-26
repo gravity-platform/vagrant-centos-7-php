@@ -38,7 +38,7 @@ echo 'xdebug.idekey=#{Box::Config::xdebugIdeKey}' >> /opt/rh/php55/root/etc/php.
 echo \"export XDEBUG_CONFIG='idekey=#{Box::Config::xdebugIdeKey} remote_enable=1 remote_autostart=1 remote_host=#{`hostname`[0..-2]}'\" >> /home/vagrant/.bashrc
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
-mv /vagrant/vendor-wrapper.sh /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
+cp /vagrant/vendor-wrapper.sh /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
 chmod +x /usr/local/bin/vagrant-centos-7-php-wrapper.sh && \
 su -l vagrant -c 'composer global require phpunit/phpunit' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
