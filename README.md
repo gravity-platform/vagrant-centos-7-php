@@ -11,6 +11,10 @@ want to configure your vagrant instance.
 vagrant plugin install vagrant-vbguest
 ```
 
+### Versions
+- vagrant version >= 1.7
+- vagrant plugin 'vagrant-vbguest' (latest)
+
 ## Initial Deploy
 
 ```bash
