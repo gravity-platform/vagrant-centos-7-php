@@ -2,12 +2,13 @@ VAGRANTFILE_API_VERSION = "2"
 
 module Box
   module Config
-    attr_accessor :ipAddr, :syncDirHost, :syncDirGuest, :xdebugIdeKey
-    module_function :ipAddr, :ipAddr=, :syncDirHost, :syncDirHost=, :syncDirGuest, :syncDirGuest=, :xdebugIdeKey, :xdebugIdeKey=
+    attr_accessor :ipAddr, :syncDirHost, :syncDirGuest, :xdebugIdeKey, :GuestTimeZone
+    module_function :ipAddr, :ipAddr=, :syncDirHost, :syncDirHost=, :syncDirGuest, :syncDirGuest=, :xdebugIdeKey, :xdebugIdeKey=, :GuestTimeZone, :GuestTimeZone=
     # set defaults
     @syncDirHost = ENV['HOME']
     @syncDirGuest = ENV['HOME']
     @xdebugIdeKey = "XDEBUG_SESSION"
+    @GuestTimeZone = "/usr/share/zoneinfo/Europe/Zurich"
   end
 end
 
@@ -45,6 +46,7 @@ ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
 su -l vagrant -c 'composer global require squizlabs/php_codesniffer' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcs && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
+ln -sf #{Box::Config::GuestTimeZone} /etc/localtime && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --zone=public --add-port=27017/tcp --permanent && \
 firewall-cmd --reload
