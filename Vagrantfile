@@ -45,8 +45,10 @@ ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
 su -l vagrant -c 'composer global require squizlabs/php_codesniffer' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcs && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
+rabbitmq-plugins enable rabbitmq_management && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --zone=public --add-port=27017/tcp --permanent && \
+firewall-cmd --zone=public --add-port=5672/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
 
@@ -76,6 +78,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port",
     guest: 27017,
     host_ip: '127.0.0.1', host: 27017,
+    auto_correct: true
+  
+  config.vm.network "forwarded_port",
+    guest: 5672,
+    host_ip: '127.0.0.1', host: 5672,
+    auto_correct: true
+
+  config.vm.network "forwarded_port",
+    guest: 15672,
+    host_ip: '127.0.0.1', host: 15672,
     auto_correct: true
 
   config.vm.provision "vendor-wrapper", type: "file",
