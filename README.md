@@ -11,7 +11,7 @@ want to configure your vagrant instance.
 vagrant plugin install vagrant-vbguest
 ```
 
-To use NFS you need a nfs-daemon. On Mac OS X you already have one. On Ubuntu exexecute the following command.
+To use NFS you need a nfs-daemon. On Mac OS X you already have one. On Ubuntu execute the following command.
 
 ```bash
 apt-get install nfs-kernel-server
