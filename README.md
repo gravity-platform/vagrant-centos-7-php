@@ -59,6 +59,7 @@ See [Vagrantfile.local.dist](Vagrantfile.local.dist) for an example config.
 
 ## Default Ports
 The following services are available under the defined host ports:
+
 | Service                                 | Port  | Notes                  |
 |:----------------------------------------|:-----:|:-----------------------|
 | **Graviton**                            | 8000  |                        |
