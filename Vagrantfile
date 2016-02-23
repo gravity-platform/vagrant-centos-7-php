@@ -17,24 +17,23 @@ end
 
 $script = <<SCRIPT
 yum -y install epel-release scl-utils deltarpm && \
-yum -y install https://www.softwarecollections.org/en/scls/rhscl/php55/epel-7-x86_64/download/rhscl-php55-epel-7-x86_64.noarch.rpm && \
+yum -y install https://www.softwarecollections.org/en/scls/rhscl/rh-php56/epel-7-x86_64/download/rhscl-rh-php56-epel-7-x86_64.noarch.rpm && \
 yum -y update && \
-yum -y install php55 php55-php-mongo php55-php-pdo php55-php-devel php55-php-bcmath php55-php-mbstring mongodb mongodb-server rabbitmq-server git && \
+yum -y install rh-php56 rh-php56-php-mongo rh-php56-php-pdo rh-php56-php-devel rh-php56-php-bcmath rh-php56-php-mbstring rh-php56-php-pecl-xdebug mongodb mongodb-server rabbitmq-server git && \
 sed -i -e 's/bind_ip = 127.0.0.1/#bind_ip = 127.0.0.1/g' /etc/mongod.conf && \
 systemctl enable mongod && \
 systemctl start mongod && \
-echo '. /opt/rh/php55/enable' >> /home/vagrant/.bashrc && \
-echo 'export X_SCLS="`scl enable php55 'echo \$X_SCLS'`"'  >> /home/vagrant/.bashrc && \
-. /opt/rh/php55/enable && \
-export X_SCLS="`scl enable php55 'echo $X_SCLS'`" && \
-echo 'memory_limit=-1' > /opt/rh/php55/root/etc/php.d/memory_limit.ini && \
+echo '. /opt/rh/rh-php56/enable' >> /home/vagrant/.bashrc && \
+echo 'export X_SCLS="`scl enable rh-php56 'echo \$X_SCLS'`"'  >> /home/vagrant/.bashrc && \
+. /opt/rh/rh-php56/enable && \
+export X_SCLS="`scl enable rh-php56 'echo $X_SCLS'`" && \
+echo 'memory_limit=-1' > /etc/opt/rh/rh-php56/php.d/memory_limit.ini && \
 pecl install xdebug && \
-echo 'zend_extension=xdebug.so' > /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo 'xdebug.remote_enable=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo 'xdebug.remote_port=9001' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo 'xdebug.remote_autostart=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo 'xdebug.remote_connect_back=On' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
-echo 'xdebug.idekey=#{Box::Config::xdebugIdeKey}' >> /opt/rh/php55/root/etc/php.d/xdebug.ini && \
+echo 'xdebug.remote_enable=On' > /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
+echo 'xdebug.remote_port=9001' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
+echo 'xdebug.remote_autostart=On' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
+echo 'xdebug.remote_connect_back=On' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
+echo 'xdebug.idekey=#{Box::Config::xdebugIdeKey}' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
 echo \"export XDEBUG_CONFIG='idekey=#{Box::Config::xdebugIdeKey} remote_enable=1 remote_autostart=1 remote_host=#{`hostname`[0..-2]}'\" >> /home/vagrant/.bashrc
 curl -sS https://getcomposer.org/installer | php && \
 mv composer.phar /usr/local/bin/composer && \
