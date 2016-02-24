@@ -28,7 +28,6 @@ echo 'export X_SCLS="`scl enable rh-php56 'echo \$X_SCLS'`"'  >> /home/vagrant/.
 . /opt/rh/rh-php56/enable && \
 export X_SCLS="`scl enable rh-php56 'echo $X_SCLS'`" && \
 echo 'memory_limit=-1' > /etc/opt/rh/rh-php56/php.d/memory_limit.ini && \
-pecl install xdebug && \
 echo 'xdebug.remote_enable=On' > /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
 echo 'xdebug.remote_port=9001' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
 echo 'xdebug.remote_autostart=On' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
