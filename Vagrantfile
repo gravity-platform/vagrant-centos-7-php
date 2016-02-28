@@ -15,6 +15,19 @@ if File.exists?('Vagrantfile.local')
   load 'Vagrantfile.local'
 end
 
+require 'rbconfig'
+
+os = case RbConfig::CONFIG['host_os']
+  when /mswin|msys|mingw|mingw32|cygwin|emc/
+    'windows'
+  when /linux|arch/i
+    'linux'
+  when /darwin/i
+    'osx'
+  else
+    raise 'Failed to detect os'
+end
+
 $script = <<SCRIPT
 yum -y install epel-release scl-utils deltarpm && \
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/rh-php56/epel-7-x86_64/download/rhscl-rh-php56-epel-7-x86_64.noarch.rpm && \
@@ -60,7 +73,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.memory = 2048
   end
 
-  config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+  case os
+    when 'osx'
+      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest,
+        id: "home",
+        type: 'nfs',
+        nfs_version:  4,
+        nfs_udp: false,
+        mount_options: ['nolock']
+    when 'windows'
+      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest,
+        id: "home",
+        type: 'nfs',
+        nfs: true
+    else
+      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest,
+        id: "home"
+  end
 
   if Box::Config::ipAddr.nil?
     config.vm.network "private_network", type: "dhcp"

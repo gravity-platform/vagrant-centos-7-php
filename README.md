@@ -8,7 +8,8 @@ You will have to install vagrant before the contents of this repo make sense. Yo
 want to configure your vagrant instance.
 
 ```bash
-vagrant plugin install vagrant-vbguest
+vagrant plugin install vagrant-vbguest # vbguest keeps guest-additions up2 date
+vagrant plugin install vagrant-winnfsd # nfs support for windows based hosts
 ```
 
 ### Versions
