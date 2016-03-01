@@ -11,9 +11,16 @@ want to configure your vagrant instance.
 vagrant plugin install vagrant-vbguest
 ```
 
+On Windows you should also install [winNFSd](https://github.com/winnfsd/vagrant-winnfsd):
+
+```bash
+vagrant plugin install vagrant-winnfsd
+```
+
 ### Versions
 - vagrant version >= 1.7
 - vagrant plugin 'vagrant-vbguest' (latest)
+- vagrant plugin 'vagrant-winnfsd' (latest, on Windows only)
 
 ## Initial Deploy
 
@@ -48,3 +55,14 @@ vagrant up
 You may add a ``Vagrantfile.local`` file that overrides some defaults.
 
 See [Vagrantfile.local.dist](Vagrantfile.local.dist) for an example config.
+
+
+## Default Ports
+The following services are available under the defined host ports:
+
+| Service                                 | Port  | Notes                  |
+|:----------------------------------------|:-----:|:-----------------------|
+| **Graviton**                            | 8000  |                        |
+| **MongoDB**                             | 27017 |                        |
+| **RabbitMQ**                            | 5672  |                        |
+| **RabbitMQ Management (Web Interface)** | 15672 | Login with guest:guest |

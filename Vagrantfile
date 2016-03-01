@@ -43,10 +43,13 @@ ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpunit && \
 su -l vagrant -c 'composer global require squizlabs/php_codesniffer' && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcs && \
 ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
+systemctl enable rabbitmq-server && \
+systemctl start rabbitmq-server && \
 rabbitmq-plugins enable rabbitmq_management && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --zone=public --add-port=27017/tcp --permanent && \
 firewall-cmd --zone=public --add-port=5672/tcp --permanent && \
+firewall-cmd --zone=public --add-port=15672/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
 
@@ -60,7 +63,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.memory = 2048
   end
 
-  config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+  if Vagrant::Util::Platform.windows?
+     config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 3, :nfs_udp => true, :mount_options => ['nolock,vers=3,udp']
+  else
+    config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+  end
 
   if Box::Config::ipAddr.nil?
     config.vm.network "private_network", type: "dhcp"
