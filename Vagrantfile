@@ -27,8 +27,10 @@ echo '. /opt/rh/rh-php56/enable' >> /home/vagrant/.bashrc && \
 echo 'export X_SCLS="`scl enable rh-php56 'echo \$X_SCLS'`"'  >> /home/vagrant/.bashrc && \
 . /opt/rh/rh-php56/enable && \
 export X_SCLS="`scl enable rh-php56 'echo $X_SCLS'`" && \
+echo 'export LC_ALL="C"' >> /home/vagrant/.bashrc && \
 echo 'memory_limit=-1' > /etc/opt/rh/rh-php56/php.d/memory_limit.ini && \
 echo 'xdebug.remote_enable=On' > /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
+echo 'xdebug.max_nesting_level=1000q' > /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
 echo 'xdebug.remote_port=9001' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
 echo 'xdebug.remote_autostart=On' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
 echo 'xdebug.remote_connect_back=On' >> /etc/opt/rh/rh-php56/php.d/xdebug.ini && \
@@ -60,7 +62,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-    v.memory = 2048
+    v.memory = 4096
   end
 
   if Vagrant::Util::Platform.windows?
