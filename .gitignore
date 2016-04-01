@@ -1,2 +1,3 @@
 .vagrant
 Vagrantfile.local
+vagrant-box/
