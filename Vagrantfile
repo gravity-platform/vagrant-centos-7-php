@@ -101,6 +101,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     source: "vendor-wrapper.sh",
     destination: "vendor-wrapper.sh"
 
+  config.vm.provision "gitconfig", type: "file",
+    source: "~/.gitconfig",
+    destination: ".gitconfig"
+
+  if File.exists?('~/.gitignore_global')
+    config.vm.provision "gitignores", type: "file",
+      source: "~/.gitignore_global",
+      destination: ".gitignore_global"
+  end
+
   config.vm.provision "shell", inline: $script
 
 end
