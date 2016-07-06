@@ -23,6 +23,8 @@ yum -y install rh-php56 rh-php56-php-mongo rh-php56-php-pdo rh-php56-php-devel r
 sed -i -e 's/bind_ip = 127.0.0.1/#bind_ip = 127.0.0.1/g' /etc/mongod.conf && \
 systemctl enable mongod && \
 systemctl start mongod && \
+yum -y install docker-engine
+service docker start
 echo '. /opt/rh/rh-php56/enable' >> /home/vagrant/.bashrc && \
 echo 'export X_SCLS="`scl enable rh-php56 'echo \$X_SCLS'`"'  >> /home/vagrant/.bashrc && \
 . /opt/rh/rh-php56/enable && \
@@ -47,6 +49,11 @@ rabbitmq-plugins enable rabbitmq_management && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --zone=public --add-port=27017/tcp --permanent && \
 firewall-cmd --zone=public --add-port=5672/tcp --permanent && \
+firewall-cmd --zone=public --add-port=15672/tcp --permanent && \
+firewall-cmd --zone=public --add-port=8080/tcp --permanent && \
+firewall-cmd --zone=public --add-port=1111/tcp --permanent && \
+firewall-cmd --zone=public --add-port=8181/tcp --permanent && \
+firewall-cmd --zone=public --add-port=8888/tcp --permanent && \
 firewall-cmd --reload
 SCRIPT
 
@@ -57,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-    v.memory = 2048
+    v.memory = 8112
   end
 
   config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
@@ -86,6 +93,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port",
     guest: 15672,
     host_ip: '127.0.0.1', host: 15672,
+    auto_correct: true
+
+  config.vm.network "forwarded_port",
+    guest: 8080,
+    host_ip: '127.0.0.1', host: 8080,
+    auto_correct: true
+
+  config.vm.network "forwarded_port",
+    guest: 1111,
+    host_ip: '127.0.0.1', host: 1111,
+    auto_correct: true
+
+  config.vm.network "forwarded_port",
+    guest: 8888,
+    host_ip: '127.0.0.1', host: 8888,
+    auto_correct: true
+
+  config.vm.network "forwarded_port",
+    guest: 80,
+    host_ip: '127.0.0.1', host: 8181,
     auto_correct: true
 
   config.vm.provision "vendor-wrapper", type: "file",
