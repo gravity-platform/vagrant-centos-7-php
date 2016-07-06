@@ -19,12 +19,15 @@ $script = <<SCRIPT
 yum -y install epel-release scl-utils deltarpm && \
 yum -y install https://www.softwarecollections.org/en/scls/rhscl/rh-php56/epel-7-x86_64/download/rhscl-rh-php56-epel-7-x86_64.noarch.rpm && \
 yum -y update && \
-yum -y install rh-php56 rh-php56-php-mongo rh-php56-php-pdo rh-php56-php-devel rh-php56-php-bcmath rh-php56-php-mbstring rh-php56-php-pecl-xdebug mongodb mongodb-server rabbitmq-server git && \
+yum -y install rh-php56 rh-php56-php-mongo rh-php56-php-pdo rh-php56-php-devel rh-php56-php-bcmath rh-php56-php-mbstring rh-php56-php-pecl-xdebug mongodb mongodb-server rabbitmq-server git docker && \
 sed -i -e 's/bind_ip = 127.0.0.1/#bind_ip = 127.0.0.1/g' /etc/mongod.conf && \
 systemctl enable mongod && \
 systemctl start mongod && \
-yum -y install docker-engine
-service docker start
+groupadd docker && \
+gpasswd -a vagrant docker && \
+systemctl start docker && \
+curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose && \
+chmod +x /usr/local/bin/docker-compose && \
 echo '. /opt/rh/rh-php56/enable' >> /home/vagrant/.bashrc && \
 echo 'export X_SCLS="`scl enable rh-php56 'echo \$X_SCLS'`"'  >> /home/vagrant/.bashrc && \
 . /opt/rh/rh-php56/enable && \
