@@ -68,6 +68,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     v.memory = 8112
+    v.cpus = 2
   end
 
   config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
