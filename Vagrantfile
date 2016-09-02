@@ -71,7 +71,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if Vagrant::Util::Platform.windows?
      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 3, :nfs_udp => true, :mount_options => ['nolock,vers=3,udp']
   else
-    config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+    config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :mount_options => ['nolock']
   end
 
   if Box::Config::ipAddr.nil?
