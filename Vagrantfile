@@ -65,6 +65,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.memory = 4096
   end
 
+  config.ssh.username = 'vagrant'
+  config.ssh.password = 'vagrant'
+
   if Vagrant::Util::Platform.windows?
      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 3, :nfs_udp => true, :mount_options => ['nolock,vers=3,udp']
   else
