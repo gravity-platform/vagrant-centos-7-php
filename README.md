@@ -30,10 +30,10 @@ cd vagrant-centos-7-php
 vagrant up
 ```
 
-Now you can ``vagrant ssh`` into the box and run composer.
+Now you can ``vagrant ssh`` into the box and run composer for the checked out repository ($PATH_TO_REPOSITORY_HOME__AS_ON_HOST).
 
 ```bash
-cd $PATH_TO_HOME_AS_ON_HOST # ie. /home/hairmare/git.repos/graviton
+cd $PATH_TO_REPOSITORY_HOME_AS_ON_HOST # mounted folder from host system ie. /home/hairmare/git.repos/graviton or /Users/hairmare/git.repos/graviton
 composer install
 vendor/bin/phpunit
 app/console server:run 0.0.0.0:8000
