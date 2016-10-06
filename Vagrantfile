@@ -48,6 +48,8 @@ ln -s vagrant-centos-7-php-wrapper.sh /usr/local/bin/phpcbf && \
 systemctl enable rabbitmq-server && \
 systemctl start rabbitmq-server && \
 rabbitmq-plugins enable rabbitmq_management && \
+systemctl enable firewalld && \
+systemctl start firewalld && \
 firewall-cmd --zone=public --add-port=8000/tcp --permanent && \
 firewall-cmd --zone=public --add-port=27017/tcp --permanent && \
 firewall-cmd --zone=public --add-port=5672/tcp --permanent && \
@@ -58,17 +60,22 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "bento/centos-7.2"
-  
+  config.vm.box_version = "2.2.9"
+
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-    v.memory = 4096
+    v.memory = 5120
   end
 
+  config.ssh.username = 'vagrant'
+  config.ssh.password = 'vagrant'
+
+  config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home"
   if Vagrant::Util::Platform.windows?
      config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 3, :nfs_udp => true, :mount_options => ['nolock,vers=3,udp']
   else
-    config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_version => 4, :nfs_udp => false, :mount_options => ['nolock']
+    config.vm.synced_folder Box::Config::syncDirHost, Box::Config::syncDirGuest, id: "home", :type => 'nfs', :nfs_udp => false, :mount_options => ['nolock']
   end
 
   if Box::Config::ipAddr.nil?
